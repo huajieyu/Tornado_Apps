@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Escape Practice!</title>
+<link rel="stylesheet" href="{{static_url('css/home.css')}}">
+</head>
+<body>
+
+<h1>Welcome to Escape Practice</h1>
+{{str}}
+<!--{% raw str %} -->
+
+{% autoescape None%}
+{{str}}
+
+{{escape(str)}}
+
+{{str}}
+
+</body>
+</html>
+

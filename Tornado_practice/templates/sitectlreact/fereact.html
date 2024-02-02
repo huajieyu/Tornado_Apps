@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!--meta http-equiv="Cache-control" content="public"-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GNS TTC SERVERS SITE STATUS</title>
+  <link rel="stylesheet" type="text/css" href="{{ static_url("mystyle.css") }}"/> 
+
+</head>
+<body>
+<!--include intelsat log here  -->
+<img class="logo" src="{{ static_url("intelsatlogo_square.png") }}" alt="logo">
+
+<br>
+<!--set buttons for each site and click html single click event -->
+<div id="button-group">
+  <h1>GNS TTC SERVERS SITE STATUS</h1>
+  <br>
+  <button id="btnand" onclick="reply_click(this.id)" class="btnsite btnand"> AND </button>
+  <button id="btnatl" onclick="reply_click(this.id)" class="btnsite btnatl"> ATL </button>
+  <button id="btnble" onclick="reply_click(this.id)" class="btnsite btnble"> BLE </button>
+  <button id="btnbrw" onclick="reply_click(this.id)" class="btnsite btnbrw"> BRW </button>
+  <button id="btncrk" onclick="reply_click(this.id)" class="btnsite btncrk"> CRK </button>
+  <button id="btnfil" onclick="reply_click(this.id)" class="btnsite btnfil"> FIL </button>
+  <button id="btnfoc" onclick="reply_click(this.id)" class="btnsite btnfoc"> FOC </button>
+  <button id="btnfus" onclick="reply_click(this.id)" class="btnsite btnfus"> FUS </button>
+  <button id="btnhbk" onclick="reply_click(this.id)" class="btnsite btnhbk"> HBK </button>
+  <button id="btnksn" onclick="reply_click(this.id)" class="btnsite btnksn"> KSN </button>
+  <br>
+  <br>
+  <button id="btnmgw" onclick="reply_click(this.id)" class="btnsite btnmgw"> MGW </button>
+  <button id="btnmtn" onclick="reply_click(this.id)" class="btnsite btnmtn"> MTN </button>
+  <button id="btnnap" onclick="reply_click(this.id)" class="btnsite btnnap"> NAP </button>
+  <button id="btnpam" onclick="reply_click(this.id)" class="btnsite btnpam"> PAM </button>
+  <button id="btnreg" onclick="reply_click(this.id)" class="btnsite btnreg"> REG </button>
+  <button id="btnrvs" onclick="reply_click(this.id)" class="btnsite btnrvs"> RVS </button>
+  <button id="btnswf" onclick="reply_click(this.id)" class="btnsite btnswf"> SWF </button>
+  <button id="btntos" onclick="reply_click(this.id)" class="btnsite btntos"> TOS </button>
+  <button id="btntest1" onclick="reply_click(this.id)" class="btnsite btntest1"> TEST </button>
+  <button id="btntest2" onclick="reply_click(this.id)" class="btnsite btntest2"> TEST </button>
+  <br>
+  <p>&nbsp;</p> 
+  <p></p> 
+</div>
+
+<!-- Separator ////////////////////////////////////////////// -->
+
+<div id="result"></div>
+
+<div>
+<font size="+2">Selected TTCM Site:</font>   
+<h2 class="title">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp NONE</h2><button id="btnreset" class="resetbtn">Reset</button>
+<!-- Separator ///////////////////////////////////////////// -->
+<form  method="post">
+<input type="text" name="selsiteid" id="selsiteid" onclick="this.value = '' " value="NONE"/>
+<label for="selsiteid"></label>
+<button onclick="getDictInfo(this.value)">Request Database Information</button>
+</form>
+
+
+</div> 
+<!-- Separator ////////////////////////////////////////////// -->
+
+
+
+<script type="text/javascript" src="{{ static_url("script0.js") }}"></script>
+<p>
+<a href="/logout">Logout</a> 
+</p>
+
+</body>
+</html>

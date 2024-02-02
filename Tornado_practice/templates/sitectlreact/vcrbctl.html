@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!--meta http-equiv="Cache-control" content="public"-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GNS TTC SERVERS SITE STATUS</title>
+  <link rel="stylesheet" type="text/css" href="{{ static_url("mystyle.css") }}"/> 
+  <link ref="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.js"></script>
+  <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+</head>
+
+<script>
+    String.prototype.unescapeHtml = function () {
+        var temp = document.createElement("div");
+        temp.innerHTML = this;
+        var result = temp.childNodes[0].nodeValue;
+        temp.removeChild(temp.firstChild);
+        return result;
+    }
+
+    var text = '{{devicesDict}}';
+    var res = JSON.parse(text.unescapeHtml());
+    //subnetDict obj
+    let actdeviceobjlist = [];
+    let actdevicevaluelist = [];
+    Object.entries(res).forEach((entry) => {
+        const [key, value] = entry;
+        console.log(`${key}: ${value}`);
+        actdeviceobjlist.push(key);
+        actdevicevaluelist.push(value);
+    });
+
+
+
+    var text = '{{subnetDict}}';
+    var res = JSON.parse(text.unescapeHtml());
+    //subnetDict obj
+    let subnetobjlist = [];
+    let subnetvaluelist = [];
+    Object.entries(res).forEach((entry) => {
+        const [key, value] = entry;
+        console.log(`${key}: ${value}`);
+        subnetobjlist.push(key);
+        subnetvaluelist.push(key);
+    });
+
+
+    var text = '{{crbDict}}';
+    var res = JSON.parse(text.unescapeHtml());
+
+    //crbobjlist crbvaluelist
+    let crbobjlist  = [];
+    let crbvaluelist = [];
+
+    Object.entries(res).forEach((entry) => {
+          const [key, value] = entry;
+          console.log(`${key}: ${value}`);
+        
+          crbobjlist.push(key);
+          crbvaluelist.push(value);
+
+    });
+
+    
+    var text = '{{cortexDict}}';
+    var res = JSON.parse(text.unescapeHtml());
+    //cortexobjlist, cortexvaluelist 
+    let cortexobjlist  = [];
+    let cortexvaluelist = [];
+
+    Object.entries(res).forEach((entry) => {
+          const [key, value] = entry;
+          console.log(`${key}: ${value}`);
+
+          cortexobjlist.push(key);
+          cortexvaluelist.push(value);  
+
+    });
+
+
+    function favTutorial1() {
+    var mylist = document.getElementById('myList1');
+    let id1 = 0;
+    while (id1<subnetobjlist.length){
+        mylist.add(new Option(subnetobjlist[id1]));
+        id1++;
+    }
+    }
+    function favTutorial2() {
+    var mylist = document.getElementById('myList2');
+    let id2 = 0;
+    while (id2<crbvaluelist.length){
+        mylist.add(new Option(crbobjlist[id2]+": "+crbvaluelist[id2]));
+        id2++;
+    }
+    }
+    function favTutorial3() {
+    var mylist = document.getElementById('myList3');
+    let id3 = 0;
+    while (id3<cortexvaluelist.length){
+        mylist.add(new Option(cortexvaluelist[id3]));
+        id3++;
+    }
+    }
+    function favTutorial4(){
+    var mylist = document.getElementById('myList4');
+    var actionlist = ["Start:VCRB", "Stop:VCRB"]
+    let id4 = 0;
+    while (id4<actionlist.length){
+        mylist.add(new Option(actionlist[id4]));
+        id4++;
+    }  
+    }
+    function favTutorial5() {
+    var mylist = document.getElementById('myList5');
+    let id5 = 1;
+    while (id5<actdevicevaluelist.length){
+        mylist.add(new Option(actdevicevaluelist[id5]));
+        id5++;
+    }
+    }
+    function favTutorial6() {
+    var mylist = document.getElementById('myList6');
+    let id6 = 0;
+    while (id6<crbvaluelist.length){
+        mylist.add(new Option(crbobjlist[id6]+": "+crbvaluelist[id6]));
+        id6++;
+    }
+    }
+    function favTutorial7() {
+    var mylist = document.getElementById('myList7');
+    let id7 = 0;
+    while (id7<cortexvaluelist.length){
+        mylist.add(new Option(cortexvaluelist[id7]));
+        id7++;
+    }
+    }
+  
+    function populatedropdowns(){
+        favTutorial1();
+        favTutorial2();
+        favTutorial3();
+        favTutorial4();
+        favTutorial5();
+        favTutorial6();
+        favTutorial7();
+    }
+    function onchange_subnet(e){
+        var mylist1 = document.getElementById('myList1');
+        document.getElementById("selsubnet").value = mylist1.options[mylist1.selectedIndex].text;
+        document.getElementById("selsubnet2").value = mylist1.options[mylist1.selectedIndex].text;
+        //console.log(e)
+    }
+    function onchange_crb(e){
+        var mylist2 = document.getElementById('myList2');
+        document.getElementById("selcrb").value = mylist2.options[mylist2.selectedIndex].text;
+        document.getElementById("selcrb2").value = mylist2.options[mylist2.selectedIndex].text;
+        //console.log(e)
+    }
+    function onchange_cortex(e){
+        var mylist3 = document.getElementById('myList3');
+        document.getElementById("selcortex").value = mylist3.options[mylist3.selectedIndex].text;
+        document.getElementById("selcortex2").value = mylist3.options[mylist3.selectedIndex].text;
+        //console.log(e)
+    }
+    function onchange_action(e){
+        var mylist4 = document.getElementById('myList4');
+        document.getElementById("selaction").value = mylist4.options[mylist4.selectedIndex].text;
+        document.getElementById("selaction2").value = mylist4.options[mylist4.selectedIndex].text;
+    }
+    function onchange_actdevice(e){
+        var mylist5 = document.getElementById('myList5');
+        document.getElementById("selactdevice").value = mylist5.options[mylist5.selectedIndex].text;
+        document.getElementById("selactdevice2").value = mylist5.options[mylist5.selectedIndex].text;
+        console.log("the selactdevice value is ", document.getElementById("selactdevice2").value)
+        //console.log(e)
+    }
+    function onchange_crbsec(e){
+        var mylist6 = document.getElementById('myList6');
+        document.getElementById("selcrbsec").value = mylist6.options[mylist6.selectedIndex].text;
+        document.getElementById("selcrbsec2").value = mylist6.options[mylist6.selectedIndex].text;
+        //console.log(e)
+    }
+    function onchange_cortexsec(e){
+        var mylist7 = document.getElementById('myList7');
+        document.getElementById("selcortexsec").value = mylist7.options[mylist7.selectedIndex].text;
+        document.getElementById("selcortexsec2").value = mylist7.options[mylist7.selectedIndex].text;
+        //console.log(e)
+    }
+    //seperator----------------------------------------------------------------
+
+    //seperator-----------------------------------------------------------------
+</script> 
+<!--script type="text/javascript" src="{{ static_url("script1.js") }}"></script-->
+<!--*************************************************************-->
+
+<!--*************************************************************-->
+<body onload= "populatedropdowns()">
+<!--include intelsat log here  -->
+<img class="logo" src="{{ static_url("intelsatlogo_square.png") }}" alt="logo">
+
+<br>
+<h1>GNS TTC SERVERS SITE STATUS</h1>
+
+<p>&nbsp;</p> 
+<p></p> 
+
+<p id="demo"></p>
+<table class="styled-table" id="member_table">
+    <tr>
+           <td> <b> Subnet </b> </td>
+           <td> <b> Crb Number </b> </td>
+           <td> <b> Cortex Number </b> </td> 
+           <td> <b> Action </b> </td> 
+    </tr>  
+    <tr>
+       <td>
+               <form>
+                   <input type = "text" name= "selsubnet" id = "selsubnet" value="NONE" aria-labelledby="selsubnet"> <br>
+                   <select aria-labelledby="myList1" id="myList1" onchange = "onchange_subnet()">
+                       <option value="">---Choose Subnet--- </option>
+                   </select>
+               </form>
+       </td>
+       <td>
+               <form>
+                   <input type = "text" name= "selcrb" id = "selcrb" value="NONE" aria-labelledby="selcrb"> 
+                   <br>
+                   <select aria-labelledby="myList2" id="myList2" onchange = "onchange_crb()">
+                       <option value="">---Choose Crb Number--- </option>
+                   </select>
+               </form>
+       </td>
+       <td>
+               <form>
+                   <input type = "text" name= "selcortex" id = "selcortex" value="NONE" aria-labelledby="selcortex"> <br>
+                   <label for="selcortex"></label>
+                   <select aria-labelledby="myList3" id="myList3" onchange = "onchange_cortex()">
+                       <option value="">---Choose Cortex Number--- </option>
+                   </select>
+               </form>
+       </td> 
+       <td>
+               <form>
+                   <input type = "text" name= "selaction" id = "selaction" value="NONE" aria-labelledby="selaction"> <br>
+                   <label for="selaction"></label>
+                   <select aria-labelledby="myList4" id="myList4" onchange = "onchange_action()">
+                       <option value="">---Choose Action--- </option>
+                   </select>
+               </form> 
+       </td>
+    </tr>
+
+</table>
+<!-- seperator-----------------------------------------------------------------hhh-->
+<p>&nbsp;</p> 
+<p></p> 
+<p>
+<form method="post">
+        <h3>The selected subnet is</h3><input class="resizedTextbox" type="text" name="selsubnet2" id="selsubnet2"/> <br>
+        <h3>The selected crb number is</h3><input class="resizedTextbox" type="text" name="selcrb2" id="selcrb2"/> <br>
+        <h3>The selected cortex number is</h3><input class="resizedTextbox" type="text" name="selcortex2" id="selcortex2"/> <br>
+        <h3>The selected action is</h3><input class="resizedTextbox" type="text" name="selaction2" id="selaction2"/> <br>
+
+        <input class="button" name="Submit" value="Submit" type="submit"/>
+</form>
+
+<!-- hhhh  -->
+
+<!-- hhhh -->
+</p>
+<p>&nbsp;</p> 
+<p></p> 
+<p>
+<table id="myTable" class="styled-table table-borderless table-striped table-earning">
+  <thead>
+    <tr>
+      <td>Devices</td>
+      <td>Status</td>
+    </tr>
+  </thead>
+  <tbody id="testBody"></tbody>
+</table>
+<!--script type="text/javascript" src="{{ static_url("script3.js") }}"></script-->
+<!--script>
+PollDeviceStatus();
+</script-->
+<script>
+    var text = '{{devicestatusDict}}';
+    var res = JSON.parse(text.unescapeHtml());
+    //subnetDict obj
+    let actdeviceobjlist3 = [];
+    let actdevicevaluelist3 = [];
+    Object.entries(res).forEach((entry) => {
+        const [key, value] = entry;
+        console.log(`${key}: ${value}`);
+        actdeviceobjlist3.push(key);
+        actdevicevaluelist3.push(value);
+    });
+
+    var text2 = '{{devicestatusDict2}}';
+    var res2 = JSON.parse(text2.unescapeHtml());
+    //subnetDict obj
+    let actdeviceobjlist2 = [];
+    let actdevicevaluelist2 = [];
+    Object.entries(res2).forEach((entry) => {
+        const [key2, value2] = entry;
+        console.log(`${key2}: ${value2}`);
+        actdeviceobjlist2.push(key2);
+        actdevicevaluelist2.push(value2);
+    });
+
+  
+  const items0 = [];
+  //const tempkey = ['key0', 'key1', 'key2'];
+  //const tempval = ['Activated', 'Activated', 'Activated'];
+  
+  idx = 0;
+  while (idx<actdeviceobjlist3.length){
+      items0.push({device:actdevicevaluelist3[idx], stat:actdevicevaluelist2[idx]});
+      idx=idx+1;
+  };
+  
+  function loadTableData(items) {
+    const table = document.getElementById("testBody");
+    items.forEach( item => {
+      let row = table.insertRow();
+      let device = row.insertCell(0);
+      device.innerHTML = item.device;
+      let stat = row.insertCell(1);
+      stat.innerHTML = item.stat;
+    });
+  }
+  loadTableData(items0);
+  //loadTableData([]);
+</script>
+<!--
+<button onClick="history_back()" class="optbtn">Go back</button>
+<script>
+    function history_back() {
+        window.history.back();
+    } 
+</script>
+-->
+
+</p>  
+<!-- seperator-----------------------------------------------------------------hhh-->
+<p>&nbsp;</p> 
+<p></p> 
+<p>
+
+<table class="styled-table" id="member_table2">
+    <tr>
+           <td> <b> TearDown VCMU/VRPU </b> </td>
+           <td> <b> Crb Number </b> </td>
+           <td> <b> Cortex Number </b> </td>
+    </tr>
+    <tr>
+        <td>
+               <form>
+                   <input type = "text" name= "selactdevice" id = "selactdevice" value="NONE" aria-labelledby="selactdevice"> <br>
+                   <label for="selactdevice"></label>
+                   <select aria-labelledby="myList5" id="myList5" onchange = "onchange_actdevice()">
+                       <option value="">---Choose Activated Device--- </option>
+                   </select>
+               </form>
+        </td> 
+        <td>
+               <form>
+                   <input type = "text" name= "selcrbsec" id = "selcrbsec" value="NONE" aria-labelledby="selcrbsec"> <br>
+                   <label for="selcrbsec"></label>
+                   <select aria-labelledby="myList6" id="myList6" onchange = "onchange_crbsec()">
+                       <option value="">---Choose Crb Number--- </option>
+                   </select>
+               </form>
+        </td> 
+        <td>
+               <form>
+                   <input type = "text" name= "selcortexsec" id = "selcortexsec" value="NONE" aria-labelledby="selcortexsec"> <br>
+                   <label for="selcortexsec"></label>
+                   <select aria-labelledby="myList7" id="myList7" onchange = "onchange_cortexsec()">
+                       <option value="">---Choose Cortex Number--- </option>
+                   </select>
+               </form>
+        </td> 
+      </tr>
+  
+</table>
+
+
+<br><br>
+<!--div class="btn-container">
+    <button id="TearDown" class="left-button" onclick="reset_status(this.id)">TearDown</button>
+    <button id="Activate" class="right-button" onclick="reset_status(this.id)">Activate</button>
+</div>
+<script type="text/javascript" src="{{ static_url("script4.js") }}"></script-->
+
+
+<div>
+<form method="post">
+        <h3>Tear Down</h3><input class="resizedTextbox" type="text" name="selactdevice2" id="selactdevice2"/> <br>
+        <h3>Crb Number</h3><input class="resizedTextbox" type="text" name="selcrbsec2" id="selcrbsec2"/> <br>
+        <h3>Cortex Number</h3><input class="resizedTextbox" type="text" name="selcortexsec2" id="selcortexsec2"/> <br>
+        <div class="btn-container">
+        <input class="left-button" name="TearDown" value="TearDown" type="submit"/>
+        <input class="middle-button" name="Activate" value="Activate" type="submit"/>
+        <input class="right-button" name="Update" value="Update" type="submit"/>
+        </div>
+</form> 
+</div>
+
+
+
+</p>
+<!--button onclick="myStartFunction()" class = "optbtn">Start</button--> 
+<!--button onclick="myStopFunction()" class = "optbtn">Stop</button-->
+<script type="text/javascript" src="{{ static_url("script2.js") }}"></script>
+</form>
+
+<br>
+<p>&nbsp;</p> 
+<p></p> 
+
+
+
+</body>
+</html>

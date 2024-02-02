@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome Back!</title>
+<link rel="stylesheet" href="{{static_url('css/home.css')}}">
+</head>
+<body>
+
+<h1>Welcome, {{ current_user }}</h1>
+
+<h1>num: {{num}}</h1>
+<h1>num+10: {{ num + 10}}</h1>
+
+<h1>num+200: {{num + 200}}</h1>
+
+<h1>num: {{num}}</h1>
+<h1>name: {{name}}</h1>
+<h1>age: {{age}}</h1>
+<h1>perhtml: {{perhtml["name"]}}</h1>
+{%if flag == 0%}
+<h1>{{name}} is a good man</h1>
+{%end%}
+<ul>
+    {% for stu in stus%}
+    <li>{{stu["name"]}}</li>
+    {%end%}
+</ul>
+
+<h1>{{mySum(100,89)}}</h1>
+<a href="/logout">logout</a>
+</body>
+</html>
+

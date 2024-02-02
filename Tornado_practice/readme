@@ -1,0 +1,301 @@
+https://www.youtube.com/watch?v=XtAL9BWg8f8&list=PLwDQt7s1o9J5zysLgD7EiHs-m5V_q3sRT&index=51
+1. sitectl.py which is main function to use tornado to run a web application
+
+2. Why Tornado:
+	>>Python web framwork and asynchronous networking library
+	>>By using a non-block network I/O, tornado can scale to tens or thousands of open connections
+	>>Three companents
+		- A web framwork (including RequestHandler which is subclassed to create web applications 
+		  and various supporting classes)
+		- Client- and server-side implementations of HTTP(HTTPServer and AsyncHTTPClient), 
+		- An asynchronous networking library including the classes IOLoop and IOStream, 
+		  which serve as the buiding blocks for the HTTP components and 
+		  can also be used to implement other protocals 
+
+	>>Tornado IOLoop:
+		- 
+		-
+		-
+if use parse_command_line() or parse_config_file(path), tornado initiates the logging module
+and print out information on screen	
+
+Templates:
+1. Configuring templates: Set the path of the templates: 
+	"template_path":os.path.join(BASE_DIR, "templates"
+
+2. send information to client, eg.  render method
+3. variable and expressions {{var}} and {{expression}} 
+4. process control: 
+	if
+		{%if expression %}
+		statement1
+		{%elif%}
+		statement2
+		{%else%}
+		statement3
+		{%end%}
+
+
+	for
+		"%for var in list%}
+		statement
+		{%end%}
+	while 
+
+5. functions
+	static_url() -> get the path of the static folder
+                     -> create a hash value based on the file content, 
+                     -> and add it to the end of URL as a parameter
+                     -> this hash value always make sure the file loaded is the latest one.
+
+	self define functions
+
+6. Tornado.escape: escaping and string manipulation, use for safety
+	-> turned on automatically, use raw to turn it off, but only turn off one line
+	-> autoescape to turn off the escape for the whole file 
+	-> set in the configurations
+		usually do not set it here
+	-> escape methods  : after turn the escaping off and use this method to do escaping 
+
+7. inherit
+
+
+8. static webpage, can be visited without running the web app
+	-> Tornado provides a handler to project a static webpage:
+		=><<tornado.web.StaticFileHandler>>
+		=>default_filename
+
+
+		
+Methods:
+
+1. initialize() get parameters passed by route
+
+2. prepare() preprocess method before process the requests
+             executed before all the HTTP requests
+             can screen out the http requests if necessary
+
+3. http method: 
+             get      |  pass parameter through url: fast, not secure, small size
+             post     |  pass the parameter separatly: 
+                      |   slow, data can be big, secure
+             head:    |  similar to get method, response without any content
+             delete:  |  request server to remove some resources
+             put:     |  pass something from client to server  
+             patch:   |  request to change some of the data
+             options: |  return http method that URL support   
+
+4. set_default_headers:
+
+5. write_error 
+
+6. on_finish:   call after all the http requests are processed, release all the resources
+
+
+
+7.
+Order of calling method
+ - Without Error
+	set_default_headers -> initialized -> prepare -> get ->on_finish
+
+ - With Error
+	set_default_headers -> initialized -> prepare -> get ->set_default_headers -> write_error -> on_finish
+
+
+
+
+
+Connect to database
+ - Tornado does not have ORM
+   we need if use database and python3.6+Tornado does not have a good drive for this.
+ - create the instance of link to the database before initiate the application
+ - the instance can be used by all the request
+ - get the application with self.Application in RequestHandlers
+ - 
+
+Utility and Security
+ - Cookie: save some information, each HTTP request will be sent to server with cookie
+	
+	- regular cookie
+		- encrypted cookie
+		1. name: cookie's name
+		2. value: value of cookie
+		3. domain : ip corresponding to cookie
+		4. path: location of the cookies
+		5. expires: effective date of the cookies,( timestamps, datetime, UTC time)
+			higher priority
+		6. expires_days: (unit: days)
+		- set cookie through Set-Cookie in set_headers
+			request cookie
+			response cookie
+		- get cookie
+			get_cookie(name, default=None)
+	                e.g ("sunck", "not loged in")
+			1. name: name of the cookie that will be getten
+			2. default: default value of the cookie, of the cookie with that name does not exist
+			   then return to the default value)
+		- clear cookie
+			self.clear_cookie(name, path="/", domain=None)
+			execute clear cookie does not remove the cookie right away, just set the value into None 
+			it does not effective any more, then the browser will remove it
+			self.clear_all_cookies(path"/", domain=None)
+
+	- Signed cookie:
+		-> cookies are saved at the client end browser and easy to be modified by client
+		-> signed cookie: 
+		identify the current logged in user
+		set_signed_cookie and get_signed_cookie
+ 
+			* cookie_secret:  a random string, can be generated by system
+			* how to generate a cookie secret?
+			* import base64 -> module for encryption
+			* import uuid - > Universally Unique Identifier-> UUID
+                        ********************************************
+			import base64
+			import uuid
+			base64.b64encode(uuid.uuid4().bytes + uuid.uuid4().bytes)
+			
+                        ********************************************
+			set up a cookie with signature and timestamp and incase it is stolen.
+			for example: "2|1:0|10:***********|
+                        verion 2
+                        Num1:num2: num1 means number of digits
+                                   num2 is values timestamp
+			name of cookie, 
+			base64 encode cookie value
+			signature value, no length
+
+
+
+		->get_secure_cookie:
+			* max_age_days is different from expires_days
+				max_age_days screen out the cookies that longer than the max_age_days, default value is 31
+			* secure cookie is not 100% secure
+
+			* don't save important information
+
+
+ - xsrf: Cross-Site Request Forgery protection:
+	cookie every user with an unpredictable value and 
+	include that value as an additional argument with every form submission on your site.
+	if the cookie and the value in the form submission do not match, then the request is likely
+	forged
+
+		if the web is attacked, can use xsrf to protect	
+		Question: how to turn on the protection?	
+			- use post method
+
+		xsrf_cookie: True -> turn on the protection
+		     	False -> True off the protection
+
+		use in the html templates and and other place 
+			1. set a secure cookie called _xsrf for all users and 
+			reject all post, put and delete requests that do not contain 
+			a correct _xsrf value
+			and will expire after the browser is closed
+			2. create a hidden form field with teh name _xsrf and value is the cookie value 
+			if you check the Elements, you can see there is a hidden input with the name
+			_xsrf and value is the xsrf_cookie generated automatically
+
+
+
+			if you turn this on, you need to instrument all forms that submit via POST
+			to contain this field.  
+                #2  set xsrf cookie manually and get the value in script
+		<script>
+		</script>
+		==>initiate an Ajax request
+
+
+ Note "___membername " means this is a private member
+      "_membername" taken as private member, better not call it from outside 
+
+
+
+ - authentication : only authenticated users can get access
+	 identify the users after received the user's request, login or not login
+	 if the users haven't logged in, redirect to login page
+	 decorator: tornado.web.authenticated
+	get_current_user method is used to check if the user is authenticated or not
+		> True: authentication success
+		> False: redirect to the page that login_url points to         
+
+
+
+
+***************************************************************************************
+sychronous vs asynchronous
+
+
+-->tornado.httpclient.AsyncHTTPClient
+
+-->fetch(request, callback=None)
+	used to execute a web request and return a response
+	the handler can be seen as a client and visit another server
+	request can be a url or a tornado.httpclient.httprequest object
+		if the request is a url(string, website will be visited), then a request object can be generated automatically
+HTTPRequest class, constructor can take parameters
+
+HTTPResponse class, constructor can take parameters
+	properties: 1. code return code
+		    2. reason of return that code
+		    3. body: responsed data
+		    4. error: anything abnormal
+
+
+	
+	- request methods: 
+
+	- headers(dictionary(mostly use dictionary), header):
+
+	- body: http request body, only used in post request
+
+
+
+asynchronous: callback function or coroutine
+
+
+************************************************************
+WebSocket Module
+	- WebSocketHandler : to handle the comminucation between the client and the server
+	- open() When the websocket connection is created, call open method
+	- on_message(): when the client send a message, call the on_message method
+	- on_close(): when the websocket connection is closed by client, call on_close method
+	- write_message(message, binary=False)
+		* send a message to client
+	- close() : close the websocket connection by server
+	- check_origin(origin): check if the origin is qualified and allowed to connect, return True
+
+chat app
+
+>login
+	username
+	password
+	verification code
+	login button
+
+
+>register
+	username
+	password
+	confirm password
+	verification code
+	nickname
+	register button
+	
+	check
+
+>chat
+	contact list
+		profile, photo and name
+	group list
+	group chat window 
+	private chat window
+	window to enter message and a button to send message
+
+
+
+
+
+
+ 

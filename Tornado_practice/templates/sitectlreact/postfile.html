@@ -1,0 +1,32 @@
+<!DOCTTYPE html>
+<html>
+<body>
+    <form action="/postfile" method="post">
+    <!--method 1-->
+    <!--{% module xsrf_form_html() %} -->
+    <!--method 2-->
+    <input id="hi" type="hidden" name="_xsrf" value="">
+   
+    Username: <input type="text" name="username"/>
+    <hr/>
+    Password: <input type="password" name="password"/>
+    <hr/>
+    Interests:
+    <input type="checkbox", value="power" name="hobby"> Power
+    <input type="checkbox", value="money" name="hobby"> Money
+    <input type="checkbox", value="book" name="hobby"> Book
+    <input type="submit" value="Login">
+    </form>
+    <script>
+        // need to setup _xsrf cookie
+        function getCookie(name){
+            var cook = document.cookie.match("\\b"+name+"=([^;]*)\\b")
+            return cook?cook[1] : undefined
+        }
+        console.log(getCookie("_xsrf"))
+        document.getElementById("hi").value = getCookie("_xsrf")
+        
+    </script>
+
+</body>
+</html>
